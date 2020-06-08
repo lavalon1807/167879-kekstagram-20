@@ -15,7 +15,16 @@
     .content
     .querySelector('.picture');
 
+  var socialButtonBtn = document.querySelector('.social__footer-btn');
+  var socialCommentsss = document.querySelector('.social__comments');
+  var userComment = document.querySelector('.social__footer-text');
+  var mainBody = document.querySelector('body');
   var pictures = document.querySelector('.pictures');
+  var bigPicture = document.querySelector('.big-picture');
+  var imgBigPicture = bigPicture.querySelector('img');
+  var likesCount = bigPicture.querySelector('.likes-count');
+  var commentsCount = bigPicture.querySelector('.comments-count');
+  var socialCaption = bigPicture.querySelector('.social__caption');
   var massUser = [];
 
   function genNumber(min, max) {
@@ -35,8 +44,8 @@
     return usersObject;
   }
 
-  function genMassUsers(user) {
-    massUser.push(user);
+  function genMassUsers(getuser) {
+    massUser.push(getuser);
   }
 
   function drawUser(user) {
@@ -64,4 +73,49 @@
   }
 
   pictures.appendChild(fragment);
+
+  // Добавляем элемент (комментарий) к большой фотографии
+
+  function genNewComments() {
+    var newComment = document.createElement('li');
+    newComment.classList.add('social__comment');
+    var newCommentImg = document.createElement('img');
+    newCommentImg.classList.add('social__picture');
+    newCommentImg.src = massUser[genNumber(1, 6)].avatar;
+    newCommentImg.alt = massUser[0].name;
+    newCommentImg.style = 'width: 35px; height: 35px';
+    newComment.append(newCommentImg);
+    var newCommentText = document.createElement('p');
+    newCommentText.classList.add('social__text');
+    newCommentText.textContent = userComment.value;
+    newComment.append(newCommentText);
+    socialCommentsss.append(newComment);
+    userComment.value = '';
+  }
+
+  // Показывает большую фотографию и информацию
+
+  function loadBigPicture() {
+    bigPicture.classList.remove('hidden');
+    imgBigPicture.src = massUser[0].url;
+    likesCount.textContent = massUser[0].likes;
+    commentsCount.textContent = massUser[0].comments;
+    socialCaption.textContent = massUser[0].description;
+    var socialCommentCount = document.querySelector('.social__comment-count');
+    socialCommentCount.classList.add('hidden');
+    var commentsLoader = document.querySelector('.comments-loader');
+    commentsLoader.classList.add('hidden');
+  }
+
+  loadBigPicture();
+
+  // Отправляет коментарий пользователя
+
+  socialButtonBtn.onclick = function (evt) {
+    evt.preventDefault();
+    genNewComments();
+  };
+
+  // Не дает прокручиваться основному экрану, пока показана большая картинка
+  mainBody.classList.add('modal-open');
 })();
