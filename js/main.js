@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
   var DESCRIPTIONS = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -104,8 +106,6 @@
     socialCommentCount.classList.add('hidden');
     var commentsLoader = document.querySelector('.comments-loader');
     commentsLoader.classList.add('hidden');
-    // Не дает прокручиваться основному экрану, пока показана большая картинка
-    mainBody.classList.add('modal-open');
   }
 
   loadBigPicture();
@@ -118,39 +118,98 @@
   };
 
   userComment.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === ENTER_KEY) {
       genNewComments();
     }
   });
 
   // Открывает пользовательскую картинку и закрывает
   var pictureUser = document.querySelector('.picture');
-  var closePictureUser = document.querySelector('#picture-cancel');
+  var pictureCancel = document.querySelector('#picture-cancel');
 
   function onPressEscape(evt) {
-    if (userComment !== document.activeElement) {
-      if (evt.key === 'Escape') {
-        closePicture();
-      }
+    if (evt.key === ESC_KEY) {
+      closePicture();
     }
   }
 
   function openPicture() {
     bigPicture.classList.remove('hidden');
-    document.addEventListener('keydown', onPressEscape);
+    if (userComment !== document.activeElement) {
+      document.addEventListener('keydown', onPressEscape);
+    }
+    // Не дает прокручиваться основному экрану, пока показана большая картинка
+    mainBody.classList.add('modal-open');
   }
 
   function closePicture() {
     bigPicture.classList.add('hidden');
     userComment.value = '';
+    document.removeEventListener('keydown', onPressEscape);
+    // Удаляет запрет на прокручивание основному экрану, пока показана большая картинка
+    mainBody.classList.remove('modal-open');
   }
 
   pictureUser.onclick = function () {
     openPicture();
   };
 
-  closePictureUser.onclick = function () {
+  pictureCancel.onclick = function () {
     closePicture();
-    document.removeEventListener('keydown', onPressEscape);
   };
+
+  // Показ тестовой загруженной фотографии
+  var uploadFile = document.querySelector('#upload-file');
+  var redactorForm = document.querySelector('.img-upload__overlay');
+  var imgUploadCancel = document.querySelector('.cancel');
+
+  function openUploadImg() {
+    redactorForm.classList.remove('hidden');
+    mainBody.classList.add('modal-open');
+  }
+
+  function closeUploadImg() {
+    redactorForm.classList.add('hidden');
+    // Удаляет запрет на прокручивание основному экрану, пока показана большая картинка
+    mainBody.classList.remove('modal-open');
+  }
+
+  // Временное постановление ОБЯЗАТЕЛЬНО ВЫНЕСУ ПОТОМ В МОДУЛИ
+  function timeLoad() {
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === ESC_KEY) {
+        closeUploadImg();
+      }
+    });
+  }
+
+  uploadFile.onclick = function (evt) {
+    evt.preventDefault();
+    timeLoad();
+    openUploadImg();
+  };
+
+  imgUploadCancel.onclick = function () {
+    redactorForm.classList.add('hidden');
+    closeUploadImg();
+  };
+
+  // Выбираем эффект для картинки
+
+  var effectsRadio = document.querySelectorAll('.effects__radio');
+  var imgUploadPreview = document.querySelector('.img-upload__preview');
+
+  for (var k = 0; k < effectsRadio.length; k++) {
+    checkEffects(effectsRadio[k]);
+  }
+
+  function checkEffects(effect) {
+    effect.onchange = function () {
+      if (effect.value) {
+        imgUploadPreview.className = 'effects__preview--' + effect.value;
+        imgUploadPreview.classList.add('img-upload__preview');
+      }
+    };
+  }
+
 })();
