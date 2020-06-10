@@ -96,7 +96,6 @@
   // Показывает большую фотографию и информацию
 
   function loadBigPicture() {
-    bigPicture.classList.remove('hidden');
     imgBigPicture.src = massUser[0].url;
     likesCount.textContent = massUser[0].likes;
     commentsCount.textContent = massUser[0].comments;
@@ -105,6 +104,8 @@
     socialCommentCount.classList.add('hidden');
     var commentsLoader = document.querySelector('.comments-loader');
     commentsLoader.classList.add('hidden');
+    // Не дает прокручиваться основному экрану, пока показана большая картинка
+    mainBody.classList.add('modal-open');
   }
 
   loadBigPicture();
@@ -116,6 +117,40 @@
     genNewComments();
   };
 
-  // Не дает прокручиваться основному экрану, пока показана большая картинка
-  mainBody.classList.add('modal-open');
+  userComment.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      genNewComments();
+    }
+  });
+
+  // Открывает пользовательскую картинку и закрывает
+  var pictureUser = document.querySelector('.picture');
+  var closePictureUser = document.querySelector('#picture-cancel');
+
+  function onPressEscape(evt) {
+    if (userComment !== document.activeElement) {
+      if (evt.key === 'Escape') {
+        closePicture();
+      }
+    }
+  }
+
+  function openPicture() {
+    bigPicture.classList.remove('hidden');
+    document.addEventListener('keydown', onPressEscape);
+  }
+
+  function closePicture() {
+    bigPicture.classList.add('hidden');
+    userComment.value = '';
+  }
+
+  pictureUser.onclick = function () {
+    openPicture();
+  };
+
+  closePictureUser.onclick = function () {
+    closePicture();
+    document.removeEventListener('keydown', onPressEscape);
+  };
 })();
