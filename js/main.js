@@ -129,15 +129,15 @@
 
   function onPressEscape(evt) {
     if (evt.key === ESC_KEY) {
-      closePicture();
+      if (userComment !== document.activeElement) {
+        closePicture();
+      }
     }
   }
 
   function openPicture() {
     bigPicture.classList.remove('hidden');
-    if (userComment !== document.activeElement) {
-      document.addEventListener('keydown', onPressEscape);
-    }
+    document.addEventListener('keydown', onPressEscape);
     // Не дает прокручиваться основному экрану, пока показана большая картинка
     mainBody.classList.add('modal-open');
   }
@@ -162,30 +162,34 @@
   var uploadFile = document.querySelector('#upload-file');
   var redactorForm = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = document.querySelector('.cancel');
+  var textDescription = document.querySelector('.text__description');
+
+  function pressEscUpload(evt) {
+    if (evt.key === ESC_KEY) {
+      if (textDescription !== document.activeElement && textHashtag !== document.activeElement) {
+        closeUploadImg();
+      }
+    }
+  }
 
   function openUploadImg() {
     redactorForm.classList.remove('hidden');
     mainBody.classList.add('modal-open');
+    div.style.display = 'none';
+    document.addEventListener('keydown', pressEscUpload);
   }
 
   function closeUploadImg() {
     redactorForm.classList.add('hidden');
+    mainPicture.style.filter = '';
     // Удаляет запрет на прокручивание основному экрану, пока показана большая картинка
     mainBody.classList.remove('modal-open');
-  }
-
-  // Временное постановление ОБЯЗАТЕЛЬНО ВЫНЕСУ ПОТОМ В МОДУЛИ
-  function timeLoad() {
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === ESC_KEY) {
-        closeUploadImg();
-      }
-    });
+    textHashtag.value = '';
+    textDescription.value = '';
   }
 
   uploadFile.onclick = function (evt) {
     evt.preventDefault();
-    timeLoad();
     openUploadImg();
   };
 
@@ -194,22 +198,129 @@
     closeUploadImg();
   };
 
-  // Выбираем эффект для картинки
+  // Заставляем двигаться пин и менять эффект
+  var redactorPhoto = document.querySelectorAll('.effects__radio');
+  var instrument = document.querySelector('.img-upload__overlay');
+  var effect = document.querySelector('input[name="effect"]:checked');
+  var instrumentHandl = instrument.querySelector('.effect-level__pin');
+  var instrumentLine = instrument.querySelector('.effect-level__line');
+  var instrumentDepth = instrument.querySelector('.effect-level__depth');
+  var wrapperPicture = document.querySelector('.img-upload__preview');
+  var mainPicture = wrapperPicture.querySelector('img');
+  var div = document.querySelector('.img-upload__effect-level');
 
-  var effectsRadio = document.querySelectorAll('.effects__radio');
-  var imgUploadPreview = document.querySelector('.img-upload__preview');
+  var EFFECT_DEAPTH = [
+    'none',
+    'grayscale(1)',
+    'sepia(1)',
+    'invert(100%)',
+    'blur(3px)',
+    'brightness(3)'
+  ];
 
-  for (var k = 0; k < effectsRadio.length; k++) {
-    checkEffects(effectsRadio[k]);
-  }
+  var EFFECT_VALUE = [
+    'none',
+    'chrome',
+    'sepia',
+    'marvin',
+    'phobos',
+    'heat'
+  ];
 
-  function checkEffects(effect) {
-    effect.onchange = function () {
-      if (effect.value) {
-        imgUploadPreview.className = 'effects__preview--' + effect.value;
-        imgUploadPreview.classList.add('img-upload__preview');
+  redactorPhoto.forEach(function (effects) {
+    effects.onchange = function () {
+      div.style.display = (effects.value !== 'none') ? 'block' : 'none';
+
+      mainPicture.className = 'effects__preview--' + effect.value;
+      instrumentDepth.style.width = '100%';
+      instrumentHandl.style.left = '100%';
+
+      for (var l = 0; l < EFFECT_VALUE.length; l++) {
+        if (effects.value === EFFECT_VALUE[l]) {
+          mainPicture.style.filter = EFFECT_DEAPTH[l];
+        }
       }
+    };
+  });
+
+  instrumentHandl.addEventListener('mousedown', function () {
+    var sliderCoords = getCoords(instrumentLine);
+    var rightEdge = instrumentLine.offsetWidth;
+
+    document.onmousemove = function (evt) {
+      var newLeft = evt.pageX - sliderCoords.left;
+      var moveBar = instrumentHandl.style.left;
+      var procent = parseInt((parseInt(moveBar, 10) * 100) / rightEdge, 10);
+      var instrumentEffect = document.querySelector('input[name="effect"]:checked');
+
+      instrumentDepth.style.width = parseInt(moveBar, 10) + 'px';
+
+      if (instrumentEffect.value === 'chrome') {
+        mainPicture.style.filter = 'grayscale(' + (procent / 100) + ')';
+      } else if (instrumentEffect.value === 'sepia') {
+        mainPicture.style.filter = 'sepia(' + (procent / 100) + ')';
+      } else if (instrumentEffect.value === 'marvin') {
+        mainPicture.style.filter = 'invert(' + (procent / 100) + ')';
+      } else if (instrumentEffect.value === 'phobos') {
+        mainPicture.style.filter = 'blur(' + (procent / 25) + 'px)';
+      } else if (instrumentEffect.value === 'heat') {
+        var brightness = procent / 33;
+
+        if (parseInt(brightness, 10) === 0) {
+          brightness = 1;
+        }
+
+        mainPicture.style.filter = 'brightness(' + brightness + ')';
+      } else {
+        mainPicture.style.filter = '';
+      }
+
+      if (newLeft < 0) {
+        newLeft = 0;
+      }
+
+      if (newLeft > rightEdge) {
+        newLeft = rightEdge;
+      }
+
+      instrumentHandl.style.left = newLeft + 'px';
+    };
+
+    document.addEventListener('mouseup', function () {
+      document.onmousemove = null;
+      document.onmouseup = null;
+    });
+  });
+
+  function getCoords(elem) {
+    var box = elem.getBoundingClientRect();
+
+    return {
+      top: box.top + pageYOffset,
+      left: box.left + pageXOffset,
     };
   }
 
+  // Валидация хеш-тегов
+
+  var textHashtag = document.querySelector('.text__hashtags');
+  var re = /(#[а-яА-Я\w][а-яА-Я\w]{0,18})(([ ]?(#[а-яА-Я\w])[а-яА-Я\w]{0,18}){1,4})?$/;
+
+  textHashtag.addEventListener('input', function () {
+    var textFill = textHashtag.value;
+    var massTextFill = textFill.split(' ');
+    var newMassTextFill = massTextFill.filter(function (elem, pos) {
+      return massTextFill.indexOf(elem) === pos;
+    });
+
+    var filterMassTextFill = (newMassTextFill.length !== massTextFill.length);
+    if (filterMassTextFill) {
+      textHashtag.setCustomValidity('Хештеги не должны повторяться! Пример: #tigrica');
+    } else if (re.test(textHashtag.value)) {
+      textHashtag.setCustomValidity('');
+    } else {
+      textHashtag.setCustomValidity('Неправильно набран хеш-тег! Пример: #tigrica');
+    }
+  });
 })();
+
