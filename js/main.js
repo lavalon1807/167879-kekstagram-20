@@ -97,18 +97,17 @@
 
   // Показывает большую фотографию и информацию
 
-  function loadBigPicture() {
-    imgBigPicture.src = massUser[0].url;
-    likesCount.textContent = massUser[0].likes;
-    commentsCount.textContent = massUser[0].comments;
-    socialCaption.textContent = massUser[0].description;
+
+  function loadBigPicture(count) {
+    imgBigPicture.src = massUser[count].url;
+    likesCount.textContent = massUser[count].likes;
+    commentsCount.textContent = massUser[count].comments;
+    socialCaption.textContent = massUser[count].description;
     var socialCommentCount = document.querySelector('.social__comment-count');
     socialCommentCount.classList.add('hidden');
     var commentsLoader = document.querySelector('.comments-loader');
     commentsLoader.classList.add('hidden');
   }
-
-  loadBigPicture();
 
   // Отправляет коментарий пользователя
 
@@ -124,7 +123,7 @@
   });
 
   // Открывает пользовательскую картинку и закрывает
-  var pictureUser = document.querySelector('.picture');
+  var pictureUser = document.querySelectorAll('.picture');
   var pictureCancel = document.querySelector('#picture-cancel');
 
   function onPressEscape(evt) {
@@ -150,9 +149,13 @@
     mainBody.classList.remove('modal-open');
   }
 
-  pictureUser.onclick = function () {
-    openPicture();
-  };
+  pictureUser.forEach(function (item, index) {
+    item.onclick = function () {
+      openPicture();
+      loadBigPicture(index);
+    };
+  });
+
 
   pictureCancel.onclick = function () {
     closePicture();
