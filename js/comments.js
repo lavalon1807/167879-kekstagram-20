@@ -32,10 +32,4 @@
       window.genNewComments();
     }
   };
-
-  // userComment.addEventListener('keydown', function (evt) {
-  //   if (userComment.value !== '') {
-  //     window.util.isEnterEvent(evt, genNewComments);
-  //   }
-  // });
 })();
