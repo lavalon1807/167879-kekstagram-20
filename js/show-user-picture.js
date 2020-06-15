@@ -30,9 +30,16 @@
     }
   }
 
+  function onPressEnter(evt) {
+    if (userComment.value !== '') {
+      window.util.isEnterEvent(evt, window.genNewComments);
+    }
+  }
+
   function openPicture() {
     bigPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPressEscape);
+    userComment.addEventListener('keydown', onPressEnter);
     // Не дает прокручиваться основному экрану, пока показана большая картинка
     mainBody.classList.add('modal-open');
   }
@@ -41,6 +48,7 @@
     bigPicture.classList.add('hidden');
     userComment.value = '';
     document.removeEventListener('keydown', onPressEscape);
+    userComment.removeEventListener('keydown', onPressEnter);
     // Удаляет запрет на прокручивание основному экрану, пока показана большая картинка
     mainBody.classList.remove('modal-open');
   }
