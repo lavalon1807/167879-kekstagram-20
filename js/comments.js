@@ -8,7 +8,7 @@
     return Math.floor(Math.random() * (max - min)) + min;
   }
   // Добавляем элемент (комментарий) к большой фотографии
-  var genNewComments = function () {
+  window.genNewComments = function () {
     var newComment = document.createElement('li');
     newComment.classList.add('social__comment');
     var newCommentImg = document.createElement('img');
@@ -29,13 +29,13 @@
   socialButtonBtn.onclick = function (evt) {
     evt.preventDefault();
     if (userComment.value !== '') {
-      genNewComments();
+      window.genNewComments();
     }
   };
 
-  userComment.addEventListener('keydown', function (evt) {
-    if (userComment.value !== '') {
-      window.util.isEnterEvent(evt, genNewComments);
-    }
-  });
+  // userComment.addEventListener('keydown', function (evt) {
+  //   if (userComment.value !== '') {
+  //     window.util.isEnterEvent(evt, genNewComments);
+  //   }
+  // });
 })();

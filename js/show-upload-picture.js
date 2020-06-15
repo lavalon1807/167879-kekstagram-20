@@ -26,6 +26,7 @@
   function closeUploadImg() {
     redactorForm.classList.add('hidden');
     mainPicture.style.filter = '';
+    document.removeEventListener('keydown', pressEscUpload);
     // Удаляет запрет на прокручивание основному экрану, пока показана большая картинка
     mainBody.classList.remove('modal-open');
 
