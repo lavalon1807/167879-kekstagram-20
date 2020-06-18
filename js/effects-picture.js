@@ -27,7 +27,7 @@
     };
   });
 
-  instrumentHandl.addEventListener('mousedown', function () {
+  instrumentHandl.onmousedown = function () {
     var sliderCoords = getCoords(instrumentLine);
     var rightEdge = instrumentLine.offsetWidth;
 
@@ -70,11 +70,11 @@
       instrumentHandl.style.left = newLeft + 'px';
     };
 
-    document.addEventListener('mouseup', function () {
+    document.onmouseup = function () {
       document.onmousemove = null;
       document.onmouseup = null;
-    });
-  });
+    };
+  };
 
   function getCoords(elem) {
     var box = elem.getBoundingClientRect();
