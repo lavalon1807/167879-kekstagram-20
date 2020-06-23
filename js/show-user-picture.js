@@ -18,7 +18,7 @@
     likesCount.textContent = user.likes;
     commentsCount.textContent = user.comments;
     socialCaption.textContent = user.description;
-  }
+  };
 
   function onPressEscape(evt) {
     if (userComment !== document.activeElement) {
@@ -34,7 +34,6 @@
     // Добавляем в разметку 5 требуемых сообщений
     window.comments.getMessage();
     // Показываем пользователю сколько сообщений есть к фотографии
-    // var socialComments = document.querySelector('.social__comments');
     var socialCommentsItem = socialComments.querySelectorAll('.social__comment');
 
     socialCommentCount.textContent = socialCommentsItem.length + ' из' + ' ' + user.comments.length + ' комментариев';
@@ -45,13 +44,12 @@
       newCommentImg[index].src = user.comments[index].avatar;
       socialText[index].textContent = user.comments[index].message;
       newCommentImg[index].alt = user.comments[index].name;
-    })
+    });
     // Добавляем обработчик на кнопку загрузить еще комментарии
-    commentsLoader.onclick = function () {;
+    commentsLoader.onclick = function () {
       // Загружаем в разметку сообщения
       window.comments.loadMessage(user);
       // Показываем данные каждого сообщения полученные с сервера
-      // socialComments = document.querySelector('.social__comments');
       socialCommentsItem = socialComments.querySelectorAll('.social__comment');
       newCommentImg = socialComments.querySelectorAll('.social__picture');
       socialText = socialComments.querySelectorAll('.social__text');
@@ -59,17 +57,17 @@
         newCommentImg[index].src = user.comments[index].avatar;
         socialText[index].textContent = user.comments[index].message;
         newCommentImg[index].alt = user.comments[index].name;
-      })
+      });
       // Показываем пользователю сколько сообщений есть к фотографии
       socialCommentCount.textContent = socialCommentsItem.length + ' из' + ' ' + user.comments.length + ' комментариев';
       // Прячем кнопку загрузки сообщения когда достигается последнее сообщение при загрузке
       if (socialCommentsItem.length === user.comments.length) {
         commentsLoader.classList.add('hidden');
       }
-    }
+    };
     // Не дает прокручиваться основному экрану, пока показана большая картинка
     mainBody.classList.add('modal-open');
-  }
+  };
 
   function closePicture() {
     bigPicture.classList.add('hidden');

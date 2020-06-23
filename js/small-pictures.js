@@ -5,8 +5,6 @@
     .content
     .querySelector('.picture');
 
-
-
   function drawUser(user) {
     var usersElement = templePicture.cloneNode(true);
 
@@ -17,7 +15,7 @@
     usersElement.addEventListener('click', function () {
       window.comments.delMessage();
       window.openPicture(user);
-    })
+    });
 
     return usersElement;
   }
@@ -33,5 +31,5 @@
       createFragment(drawUser(photos[j]));
     }
     pictures.appendChild(fragment);
-  })
+  });
 })();
