@@ -34,7 +34,6 @@
     // Добавляем в разметку 5 требуемых сообщений
     window.comments.getMessage();
     // Показываем пользователю сколько сообщений есть к фотографии
-    // var socialComments = document.querySelector('.social__comments');
     var socialCommentsItem = socialComments.querySelectorAll('.social__comment');
 
     socialCommentCount.textContent = socialCommentsItem.length + ' из' + ' ' + user.comments.length + ' комментариев';
@@ -51,7 +50,6 @@
       // Загружаем в разметку сообщения
       window.comments.loadMessage(user);
       // Показываем данные каждого сообщения полученные с сервера
-      // socialComments = document.querySelector('.social__comments');
       socialCommentsItem = socialComments.querySelectorAll('.social__comment');
       newCommentImg = socialComments.querySelectorAll('.social__picture');
       socialText = socialComments.querySelectorAll('.social__text');
