@@ -32,7 +32,7 @@
     bigPicture.classList.remove('hidden');
     document.addEventListener('keydown', onPressEscape);
     // Добавляем в разметку 5 требуемых сообщений
-    window.comments.getMessage();
+    window.comments.getMessage(user);
     // Показываем пользователю сколько сообщений есть к фотографии
     var socialCommentsItem = socialComments.querySelectorAll('.social__comment');
 

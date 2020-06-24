@@ -10,6 +10,7 @@
   var wrapperPicture = document.querySelector('.img-upload__preview');
   var mainPicture = wrapperPicture.querySelector('img');
   var div = document.querySelector('.img-upload__effect-level');
+  var effectValue = document.querySelector('.effect-level__value');
 
   redactorPhoto.forEach(function (effects) {
     effects.onchange = function () {
@@ -18,6 +19,7 @@
       mainPicture.className = 'effects__preview--' + effect.value;
       instrumentDepth.style.width = '100%';
       instrumentHandl.style.left = '100%';
+      effectValue.value = 100;
 
       for (var l = 0; l < window.constants.EFFECT_VALUE.length; l++) {
         if (effects.value === window.constants.EFFECT_VALUE[l]) {
@@ -41,12 +43,16 @@
 
       if (instrumentEffect.value === 'chrome') {
         mainPicture.style.filter = 'grayscale(' + (procent / 100) + ')';
+        effectValue.value = procent;
       } else if (instrumentEffect.value === 'sepia') {
         mainPicture.style.filter = 'sepia(' + (procent / 100) + ')';
+        effectValue.value = procent;
       } else if (instrumentEffect.value === 'marvin') {
         mainPicture.style.filter = 'invert(' + (procent / 100) + ')';
+        effectValue.value = procent;
       } else if (instrumentEffect.value === 'phobos') {
         mainPicture.style.filter = 'blur(' + (procent / 25) + 'px)';
+        effectValue.value = procent;
       } else if (instrumentEffect.value === 'heat') {
         var brightness = procent / 33;
 
@@ -55,6 +61,7 @@
         }
 
         mainPicture.style.filter = 'brightness(' + brightness + ')';
+        effectValue.value = procent;
       } else {
         mainPicture.style.filter = '';
       }
