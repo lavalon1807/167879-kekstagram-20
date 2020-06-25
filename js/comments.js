@@ -3,14 +3,18 @@
   var userComment = document.querySelector('.social__footer-text');
   var socialComments = document.querySelector('.social__comments');
   var socialButtonBtn = document.querySelector('.social__footer-btn');
-  var socialCommentsItem = socialComments.querySelectorAll('.social__comment');
   var commentsLoader = document.querySelector('.comments-loader');
 
   window.comments = {
-    getMessage: function () {
+    getMessage: function (user) {
       var time = 5;
-      if (socialCommentsItem.length < time) {
-        for (var i = 0; i < 5; i++) {
+      if (user.comments.length < time) {
+        for (var i = 0; i < user.comments.length; i++) {
+          genNewComments();
+          commentsLoader.classList.add('hidden');
+        }
+      } else if (user.comments.length > time) {
+        for (var g = 0; g < 5; g++) {
           genNewComments();
         }
       }
