@@ -29,6 +29,7 @@
       modalForm.classList.add('hidden');
     });
     evt.preventDefault();
+    form.reset();
   });
 })();
 
