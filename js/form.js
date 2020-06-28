@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  var form = document.querySelector('.img-upload__form');
-  var upload = document.querySelector('.img-upload__overlay');
   // Валидация хеш-тегов
   var textHashtag = document.querySelector('.text__hashtags');
   var re = /(#[а-яА-Я\w][а-яА-Я\w]{0,18})(([ ]?(#[а-яА-Я\w])[а-яА-Я\w]{0,18}){1,4})?$/;
@@ -23,11 +21,15 @@
     }
   });
 
+  var form = document.querySelector('.img-upload__form');
+  var modalForm = form.querySelector('.img-upload__overlay');
+
   form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
     window.upload(new FormData(form), function () {
-      upload.classList.add('hidden');
+      modalForm.classList.add('hidden');
     });
+    evt.preventDefault();
+    form.reset();
   });
 })();
 

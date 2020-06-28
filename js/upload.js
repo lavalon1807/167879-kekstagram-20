@@ -42,8 +42,7 @@
     main.appendChild(error);
     var errorButton = error.querySelector('.error__button');
     // Закрывает на клик по кнопке
-    errorButton.onclick = function (evt) {
-      evt.preventDefault();
+    errorButton.onclick = function () {
       closeError(error);
     };
     // Закрывает на клик по произвольному месту
