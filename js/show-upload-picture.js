@@ -9,6 +9,9 @@
   var redactorForm = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = document.querySelector('.cancel');
   var textDescription = document.querySelector('.text__description');
+  var pictureLoad = document.querySelector('.img-upload__overlay');
+  var previewPictureLoad = pictureLoad.querySelector('.img-upload__preview');
+  var previewPictureItem = previewPictureLoad.querySelector('img');
 
   function pressEscUpload(evt) {
     if (textDescription !== document.activeElement && textHashtag !== document.activeElement) {
@@ -33,8 +36,7 @@
     textDescription.value = '';
   }
 
-  uploadFile.onclick = function (evt) {
-    evt.preventDefault();
+  uploadFile.onclick = function () {
     openUploadImg();
   };
 
