@@ -25,9 +25,9 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(form), function (response) {
+    window.upload(new FormData(form), function () {
       upload.classList.add('hidden');
-    })
+    });
   });
 })();
 
