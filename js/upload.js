@@ -44,6 +44,7 @@
     // Закрывает на клик по кнопке
     errorButton.onclick = function (evt) {
       evt.preventDefault();
+    errorButton.onclick = function () {
       closeError(error);
     };
     // Закрывает на клик по произвольному месту
@@ -66,7 +67,7 @@
     main.appendChild(success);
     var successButton = success.querySelector('.success__button');
     // Закрывает на клик по кнопке
-    successButton.onclick = function (evt) {
+    successButton.onclick = function () {
       closeSuccess(success);
     };
     // Закрывает на клик по произвольному месту

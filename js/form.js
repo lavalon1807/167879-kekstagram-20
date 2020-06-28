@@ -28,6 +28,16 @@
     window.upload(new FormData(form), function (response) {
       upload.classList.add('hidden');
     })
+    
+  var form = document.querySelector('.img-upload__form');
+  var modalForm = form.querySelector('.img-upload__overlay');
+
+  form.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), function () {
+      modalForm.classList.add('hidden');
+    });
+    evt.preventDefault();
+    form.reset();
   });
 })();
 
