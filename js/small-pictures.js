@@ -1,36 +1,10 @@
 'use strict';
 (function () {
-  var pictures = document.querySelector('.pictures');
-  var templePicture = document.querySelector('#picture')
-    .content
-    .querySelector('.picture');
+  window.massPhoto = [];
 
-  function drawUser(user) {
-    var usersElement = templePicture.cloneNode(true);
-
-    usersElement.querySelector('.picture__img').src = user.url;
-    usersElement.querySelector('.picture__likes').textContent = user.likes;
-    usersElement.querySelector('.picture__comments').textContent = user.comments.length;
-
-    usersElement.addEventListener('click', function () {
-      window.comments.delMessage();
-      window.openPicture(user);
-    });
-
-    return usersElement;
-  }
-
-  var fragment = document.createDocumentFragment();
-
-  var createFragment = function (frag) {
-    fragment.appendChild((frag));
-  };
-
-  var successHandler = function (photos) {
-    for (var j = 0; j < photos.length; j++) {
-      createFragment(drawUser(photos[j]));
-    }
-    pictures.appendChild(fragment);
+  var successHandler = function (data) {
+    window.massPhoto = data;
+    window.render(data);
   };
 
   var errorHandler = function (errorMessage) {

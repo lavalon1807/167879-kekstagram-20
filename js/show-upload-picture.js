@@ -33,8 +33,7 @@
     textDescription.value = '';
   }
 
-  uploadFile.onclick = function (evt) {
-    evt.preventDefault();
+  uploadFile.onclick = function () {
     openUploadImg();
   };
 
