@@ -18,5 +18,9 @@ window.constants = (function () {
       'phobos',
       'heat'
     ],
+
+    SCALE: [
+      '100'
+    ]
   };
 })();
