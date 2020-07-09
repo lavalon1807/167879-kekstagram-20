@@ -23,10 +23,16 @@
 
   var form = document.querySelector('.img-upload__form');
   var modalForm = form.querySelector('.img-upload__overlay');
+  var uploadSubmit = form.querySelector('.img-upload__submit');
 
   form.addEventListener('submit', function (evt) {
+    uploadSubmit.textContent = 'Данные отправляются ...';
+    uploadSubmit.disabled = true;
+
     window.upload(new FormData(form), function () {
       modalForm.classList.add('hidden');
+      uploadSubmit.textContent = 'ОПУБЛИКОВАТЬ';
+      uploadSubmit.disabled = false;
     });
     evt.preventDefault();
     form.reset();
