@@ -11,6 +11,7 @@
       if (user.comments.length < time) {
         for (var i = 0; i < user.comments.length; i++) {
           genNewComments();
+          window.showUserPicture.modalClickTab(userComment);
           commentsLoader.classList.add('hidden');
         }
       } else if (user.comments.length > time) {
@@ -34,7 +35,33 @@
         }
       }
     },
-
+    // Показываем данные каждого сообщения полученные с сервера
+    showLoadMessage: function (user, comment, text, item) {
+      item.forEach(function (it, index) {
+        comment[index].src = user.comments[index].avatar;
+        text[index].textContent = user.comments[index].message;
+        comment[index].alt = user.comments[index].name;
+      });
+    },
+    // Добавляем обработчик на кнопку загрузить еще комментарии
+    genLoadMessage: function (user, comment, text, item) {
+      commentsLoader.onclick = function () {
+        // Загружаем в разметку сообщения
+        window.comments.loadMessage(user);
+        // Показываем данные каждого сообщения полученные с сервера
+        item = socialComments.querySelectorAll('.social__comment');
+        comment = socialComments.querySelectorAll('.social__picture');
+        text = socialComments.querySelectorAll('.social__text');
+        window.comments.showLoadMessage(user, comment, text, item);
+        // Показываем пользователю сколько сообщений есть к фотографии
+        comment.textContent = item.length + ' из' + ' ' + user.comments.length + ' комментариев';
+        // Прячем кнопку загрузки сообщения когда достигается последнее сообщение при загрузке
+        if (item.length === user.comments.length) {
+          commentsLoader.classList.add('hidden');
+          window.showUserPicture.modalClickTab(userComment);
+        }
+      };
+    },
     // Удаляем разметку из дом - сообщения
     delMessage: function () {
       var socialCommentItem = socialComments.querySelectorAll('.social__comment');

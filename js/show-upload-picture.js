@@ -6,7 +6,6 @@
   var textHashtag = document.querySelector('.text__hashtags');
   var div = document.querySelector('.img-upload__effect-level');
   var mainBody = document.querySelector('body');
-  var uploadFile = document.querySelector('#upload-file');
   var redactorForm = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = document.querySelector('.cancel');
   var textDescription = document.querySelector('.text__description');
@@ -20,12 +19,12 @@
     }
   }
 
-  function openUploadImg() {
+  window.openUploadImg = function () {
     redactorForm.classList.remove('hidden');
     mainBody.classList.add('modal-open');
     div.style.display = 'none';
     document.addEventListener('keydown', pressEscUpload);
-  }
+  };
 
   function closeUploadImg() {
     redactorForm.classList.add('hidden');
@@ -38,11 +37,8 @@
 
     textHashtag.value = '';
     textDescription.value = '';
+    uploadPreview.src = '';
   }
-
-  uploadFile.onclick = function () {
-    openUploadImg();
-  };
 
   imgUploadCancel.onclick = function () {
     redactorForm.classList.add('hidden');

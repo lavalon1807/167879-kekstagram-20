@@ -7,6 +7,8 @@
   var filterDefault = filterForm.querySelector('#filter-default');
   var filterDiscussed = filterForm.querySelector('#filter-discussed');
 
+  filterForm.classList.add('hidden');
+
   filterForm.onclick = function (e) {
     var target = e.target;
     filterButton.forEach(function (item) {

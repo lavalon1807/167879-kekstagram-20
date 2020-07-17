@@ -18,7 +18,7 @@
 
       mainPicture.className = 'effects__preview--' + effect.value;
       instrumentDepth.style.width = '100%';
-      instrumentHandl.style.left = '100%';
+      instrumentHandl.style.left = '453px';
       effectValue.value = 100;
 
       for (var l = 0; l < window.constants.EFFECT_VALUE.length; l++) {
@@ -28,6 +28,30 @@
       }
     };
   });
+
+  var massTypes = ['chrome', 'sepia', 'marvin', 'phobos', 'heat'];
+  var massEffects = [
+    'grayscale(',
+    'sepia(',
+    'invert(',
+    'blur(',
+    'brightness('
+  ];
+
+  var massProcents = [100, 100, 100, 25, 33];
+  var massStyles = ['', '', '', 'px', ''];
+
+  var genEffectPicture = function (instrumentEffect, procent) {
+    var brightness = procent / 33;
+    if (parseInt(brightness, 10) === 0) {
+      brightness = 0.8;
+    }
+    for (var i = 0; i < massTypes.length; i++) {
+      if (instrumentEffect.value === massTypes[i]) {
+        mainPicture.style.filter = massEffects[i] + (procent / massProcents[i]) + massStyles[i] + ')';
+      }
+    }
+  };
 
   instrumentHandl.addEventListener('mousedown', function () {
     var sliderCoords = getCoords(instrumentLine);
@@ -41,30 +65,7 @@
 
       instrumentDepth.style.width = parseInt(moveBar, 10) + 'px';
 
-      if (instrumentEffect.value === 'chrome') {
-        mainPicture.style.filter = 'grayscale(' + (procent / 100) + ')';
-        effectValue.value = procent;
-      } else if (instrumentEffect.value === 'sepia') {
-        mainPicture.style.filter = 'sepia(' + (procent / 100) + ')';
-        effectValue.value = procent;
-      } else if (instrumentEffect.value === 'marvin') {
-        mainPicture.style.filter = 'invert(' + (procent / 100) + ')';
-        effectValue.value = procent;
-      } else if (instrumentEffect.value === 'phobos') {
-        mainPicture.style.filter = 'blur(' + (procent / 25) + 'px)';
-        effectValue.value = procent;
-      } else if (instrumentEffect.value === 'heat') {
-        var brightness = procent / 33;
-
-        if (parseInt(brightness, 10) === 0) {
-          brightness = 1;
-        }
-
-        mainPicture.style.filter = 'brightness(' + brightness + ')';
-        effectValue.value = procent;
-      } else {
-        mainPicture.style.filter = '';
-      }
+      genEffectPicture(instrumentEffect, procent);
 
       if (newLeft < 0) {
         newLeft = 0;

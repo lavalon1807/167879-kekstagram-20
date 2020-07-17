@@ -5,7 +5,7 @@
   var pictureOverlayPreview = pictureOverlay.querySelector('.img-upload__preview');
   var pictureOverlayItem = pictureOverlayPreview.querySelector('img');
 
-  window.readFile = function () {
+  var readFile = function () {
     var file = upload.files[0];
 
     if (file) {
@@ -19,10 +19,10 @@
     }
   };
 
-  window.showFilesUpload = function () {
+  var showFilesUpload = function () {
     upload.addEventListener('change', function () {
-      window.readFile();
+      readFile(upload, window.debounce(window.openUploadImg));
     });
   };
-  window.showFilesUpload();
+  showFilesUpload();
 })();

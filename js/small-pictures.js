@@ -5,6 +5,9 @@
   var successHandler = function (data) {
     window.massPhoto = data;
     window.render(data);
+    var filterForm = document.querySelector('.img-filters__form');
+    // Показывает фильтры только после загрузки всех фотографий
+    filterForm.classList.remove('hidden');
   };
 
   var errorHandler = function (errorMessage) {

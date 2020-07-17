@@ -12,10 +12,9 @@
     usersElement.querySelector('.picture__img').src = user.url;
     usersElement.querySelector('.picture__likes').textContent = user.likes;
     usersElement.querySelector('.picture__comments').textContent = user.comments.length;
-
     usersElement.addEventListener('click', function () {
       window.comments.delMessage();
-      window.openPicture(user);
+      window.showUserPicture.openPicture(user);
     });
 
     return usersElement;
