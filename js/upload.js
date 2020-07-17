@@ -3,7 +3,7 @@
   var StatusCode = {
     OK: 200
   };
-  var URL = 'https://javascript.pages.academy/kekstagram1';
+  var URL = 'https://javascript.pages.academy/kekstagram';
 
   window.upload = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
