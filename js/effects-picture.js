@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var UP_KEY = 38;
+  var DOWN_KEY = 40;
   // Заставляем двигаться пин и менять эффект
   var redactorPhoto = document.querySelectorAll('.effects__radio');
   var instrument = document.querySelector('.img-upload__overlay');
@@ -12,7 +14,24 @@
   var div = document.querySelector('.img-upload__effect-level');
   var effectValue = document.querySelector('.effect-level__value');
 
+  var effectFocus = function (evt, list) {
+    evt.preventDefault();
+    list.focus();
+  };
+
   redactorPhoto.forEach(function (effects) {
+    effects.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === UP_KEY) {
+        effectFocus(evt, instrumentHandl);
+      }
+
+      instrumentHandl.addEventListener('keydown', function (e) {
+        if (e.keyCode === DOWN_KEY) {
+          effectFocus(e, effects);
+        }
+      });
+    });
+
     effects.onchange = function () {
       div.style.display = (effects.value !== 'none') ? 'block' : 'none';
 
@@ -29,30 +48,6 @@
     };
   });
 
-  var massTypes = ['chrome', 'sepia', 'marvin', 'phobos', 'heat'];
-  var massEffects = [
-    'grayscale(',
-    'sepia(',
-    'invert(',
-    'blur(',
-    'brightness('
-  ];
-
-  var massProcents = [100, 100, 100, 25, 33];
-  var massStyles = ['', '', '', 'px', ''];
-
-  var genEffectPicture = function (instrumentEffect, procent) {
-    var brightness = procent / 33;
-    if (parseInt(brightness, 10) === 0) {
-      brightness = 0.8;
-    }
-    for (var i = 0; i < massTypes.length; i++) {
-      if (instrumentEffect.value === massTypes[i]) {
-        mainPicture.style.filter = massEffects[i] + (procent / massProcents[i]) + massStyles[i] + ')';
-      }
-    }
-  };
-
   instrumentHandl.addEventListener('mousedown', function () {
     var sliderCoords = getCoords(instrumentLine);
     var rightEdge = instrumentLine.offsetWidth;
@@ -65,7 +60,7 @@
 
       instrumentDepth.style.width = parseInt(moveBar, 10) + 'px';
 
-      genEffectPicture(instrumentEffect, procent);
+      window.genEffectPicture(instrumentEffect, procent);
 
       if (newLeft < 0) {
         newLeft = 0;
@@ -84,12 +79,12 @@
     });
   });
 
-  function getCoords(elem) {
+  var getCoords = function (elem) {
     var box = elem.getBoundingClientRect();
 
     return {
       top: box.top + pageYOffset,
       left: box.left + pageXOffset,
     };
-  }
+  };
 })();

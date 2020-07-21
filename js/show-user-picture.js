@@ -19,14 +19,16 @@
       userComment.onkeydown = function (e) {
         if (e.key === TAB && !e.shiftKey) {
           pictureCancel.focus();
+          return false;
         }
-        return false;
+        return userComment;
       };
       pictureCancel.onkeydown = function (e) {
         if (e.key === TAB && !e.shiftKey) {
           last.focus();
+          return false;
         }
-        return false;
+        return pictureCancel;
       };
     },
 

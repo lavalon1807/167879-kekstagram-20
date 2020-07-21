@@ -34,6 +34,7 @@
     scaleValue.value = window.constants.SCALE + '%';
     // Удаляет запрет на прокручивание основному экрану, пока показана большая картинка
     mainBody.classList.remove('modal-open');
+    document.removeEventListener('keydown', pressEscUpload);
 
     textHashtag.value = '';
     textDescription.value = '';
@@ -41,7 +42,6 @@
   }
 
   imgUploadCancel.onclick = function () {
-    redactorForm.classList.add('hidden');
     closeUploadImg();
   };
 })();

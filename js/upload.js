@@ -3,7 +3,7 @@
   var StatusCode = {
     OK: 200
   };
-  var URL = 'https://javascript.pages.academy/kekstagram';
+  var ADRESS_SERVER_UPLOAD = 'https://javascript.pages.academy/kekstagram';
 
   window.upload = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
@@ -19,7 +19,7 @@
       }
     });
 
-    xhr.open('POST', URL);
+    xhr.open('POST', ADRESS_SERVER_UPLOAD);
     xhr.send(data);
   };
 })();

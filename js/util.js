@@ -13,6 +13,16 @@ window.util = (function () {
       if (evt.keyCode === ENTER_KEY) {
         action();
       }
+    },
+    isUpEvent: function (evt, action) {
+      if (evt.keyCode === 38) {
+        action();
+      }
+    },
+    isDownEvent: function (evt, action) {
+      if (evt.keyCode === 40) {
+        action();
+      }
     }
   };
 })();

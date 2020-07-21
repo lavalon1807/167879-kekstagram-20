@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var URL = 'https://javascript.pages.academy/kekstagram/data';
+  var ADRESS_SERVER_DATA = 'https://javascript.pages.academy/kekstagram/data';
   var StatusCode = {
     OK: 200
   };
@@ -9,7 +9,7 @@
   window.load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.open('GET', URL);
+    xhr.open('GET', ADRESS_SERVER_DATA);
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
